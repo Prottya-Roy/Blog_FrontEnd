@@ -36,4 +36,25 @@ export class AccountService {
     this.currentUserSource.next(null);
   }
 
+  register(model: any){
+    return this.http.post<User>(this.baseUrl+'User/RegisterUser', model).pipe(
+      map((response :User)=>{
+        const user = response;
+        if(user){
+          localStorage.setItem('user', JSON.stringify(user));
+          this.currentUserSource.next(user);
+        }
+      })
+    );
+  }
+
+  checkUserName(userName: string){
+    return this.http.get<boolean>(this.baseUrl+'User/UserNameAvailable'+userName).pipe(
+      map((response: boolean)=>{
+        const res = response;
+      })
+    );
+
+  }
+
 }
