@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {map} from "rxjs/operators";
 import {User} from "../_models/user";
 import {BehaviorSubject} from "rxjs";
@@ -48,13 +48,29 @@ export class AccountService {
     );
   }
 
-  checkUserName(userName: string){
-    return this.http.get<boolean>(this.baseUrl+'User/UserNameAvailable'+userName).pipe(
-      map((response: boolean)=>{
-        const res = response;
+  checkUserName(userName: string) {
+    return this.http.get<any>(this.baseUrl + 'User/UserNameAvailable/' + userName).pipe(
+      map(response  => {
+        if (response instanceof HttpErrorResponse) {
+          console.log("UserName is in use");
+        } else {
+          console.log("UserName is Available");
+        }
       })
     );
+  }
 
+    checkEmail(email: string){
+      return this.http.get<any>(this.baseUrl+'User/EmailAvailable/'+email).pipe(
+        map(response=>{
+          if(response instanceof HttpErrorResponse){
+            console.log("email is in use");
+          }
+          else {
+            console.log("email is Available");
+          }
+        })
+      );
   }
 
 }

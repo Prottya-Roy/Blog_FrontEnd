@@ -24,7 +24,7 @@
 <!--</form>-->
 
 <div class="registration-form" *ngIf="!(accountService.currentUser$ | async)">
-  <form #registerForm="ngForm" (ngSubmit) = "register()" autocomplete="off">
+  <form #registerForm="ngForm" (ngSubmit) = "checkUserName()" autocomplete="off">
     <div class="form-icon">
       <span><i class="icon icon-user"></i></span>
     </div>
